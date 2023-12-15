@@ -2,7 +2,6 @@ import { Card, Title, Text } from '@tremor/react';
 import Search from './search';
 import UsersTable from './table';
 import prismaDb from '../lib/prismadb';
-import { checkAuth } from '../lib/auth';
 
 interface User {
   id: string;
@@ -16,8 +15,6 @@ export default async function IndexPage({
   searchParams: { q: string };
 }) {
   const search = searchParams.q ?? '';
-
-  const isAuthed = checkAuth();
 
   const users = await prismaDb.user.findMany({
     select: {id: true, name: true, email: true}

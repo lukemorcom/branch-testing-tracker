@@ -1,10 +1,17 @@
 import { getServerSession } from "next-auth";
 
+export async function getSession() {
+    return await getServerSession();
+}
+
 export async function checkAuth() {
     const session = await getServerSession();
 
-    const f = !! session?.user;
-    console.log(f);
+    return !! session?.user;
+}
 
-    return f;
+export async function getUser() {
+    const session = await getServerSession();
+
+    return session!.user;
 }
