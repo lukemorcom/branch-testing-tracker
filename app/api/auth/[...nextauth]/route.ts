@@ -13,11 +13,16 @@ export const authOptions = {
   ],
   debug: true,
   session: {
-    // Set to jwt in order to CredentialsProvider works properly
     strategy: 'jwt'
+  },
+  callbacks: {
+    //@ts-ignore
+    async signIn({ user, account, profile, email, credentials }) {
+      return user.email.endsWith('@feeditback.com');
+    }
   }
 };
 
-export const handler = NextAuth(authOptions);
+export const handler = NextAuth(authOptions as any);
 
 export { handler as GET, handler as POST };
