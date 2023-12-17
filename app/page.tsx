@@ -1,33 +1,29 @@
-import { Card, Title, Text } from '@tremor/react';
-import Search from './search';
-import UsersTable from './table';
-import prismaDb from '../lib/prismadb';
+import { Title, Text, Grid } from "@tremor/react";
+import { Prisma } from "@prisma/client";
+import prismaDb from "../lib/prismadb";
+import EnvironmentCard from "../components/EnvironmentCard";
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-}
+type EnvironmentWithDeploymentAndUser = Prisma.EnvironmentGetPayload<{
+  include: {currentDeployment: {include: {user: true}}}
+}>
 
-export default async function IndexPage({
-  searchParams
-}: {
-  searchParams: { q: string };
-}) {
-  const search = searchParams.q ?? '';
-
-  const users = await prismaDb.user.findMany({
-    select: {id: true, name: true, email: true}
+export default async function DeploymentsPage() {
+  const environments = await prismaDb.environment.findMany({
+      orderBy: [{name: 'asc'}],
+      include: {currentDeployment: {include: {user: true}}
+    }
   });
 
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
-      <Title>Users</Title>
-      <Text>{users.map((u) => u.name)}</Text>
-      <Search />
-      <Card className="mt-6">
-        <UsersTable users={users}/>
-      </Card>
+      <Title>Overview</Title>
+      <Text>A list of environments and their latest deployment status.</Text>
+
+      <Grid numItemsMd={2} className="flex mt-6 gap-6">
+        {environments.map((e: EnvironmentWithDeploymentAndUser) => (
+          <EnvironmentCard key={e.id} environment={e} />
+        ))}
+      </Grid>
     </main>
   );
 }

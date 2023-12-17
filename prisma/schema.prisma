@@ -79,4 +79,5 @@ model Deployment {
   userId      String
   branchName  String
   environment Environment?
+  deployedAt  DateTime @default(now())
 }
