@@ -1,11 +1,7 @@
 import { Title, Text, Grid } from "@tremor/react";
-import { Prisma } from "@prisma/client";
 import prismaDb from "../lib/prismadb";
 import EnvironmentCard from "../components/EnvironmentCard";
-
-type EnvironmentWithDeploymentAndUser = Prisma.EnvironmentGetPayload<{
-  include: {currentDeployment: {include: {user: true}}}
-}>
+import { EnvironmentWithDeploymentAndUser } from "../types";
 
 export default async function DeploymentsPage() {
   const environments = await prismaDb.environment.findMany({

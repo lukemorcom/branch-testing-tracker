@@ -5,8 +5,10 @@ import {
   TableHeaderCell,
   TableBody,
   TableCell,
-  Text
+  Text,
+  Badge
 } from '@tremor/react';
+import { EnvironmentWithDeploymentAndUser } from '../types';
 
 interface User {
   id: string;
@@ -14,25 +16,33 @@ interface User {
   email: string;
 }
 
-export default function UsersTable({ users }: { users: User[] }) {
+export default function DeploymentsTable({ environments }: { environments: EnvironmentWithDeploymentAndUser[] }) {
   return (
     <Table>
       <TableHead>
         <TableRow>
-          <TableHeaderCell>Name</TableHeaderCell>
-          <TableHeaderCell>Username</TableHeaderCell>
-          <TableHeaderCell>Email</TableHeaderCell>
+          <TableHeaderCell>Environment</TableHeaderCell>
+          <TableHeaderCell>Branch</TableHeaderCell>
+          <TableHeaderCell>Deployed By</TableHeaderCell>
+          <TableHeaderCell>Deployed At</TableHeaderCell>
         </TableRow>
       </TableHead>
       <TableBody>
-        {users.map((user) => (
-          <TableRow key={user.id}>
-            <TableCell>{user.name}</TableCell>
+        {environments.map((e) => (
+          <TableRow key={e.id}>
             <TableCell>
-              <Text>{user.name}</Text>
+              <Badge color={'green'}>
+                <span className='text-green-700'>{e.name}</span>
+              </Badge>
             </TableCell>
             <TableCell>
-              <Text>{user.email}</Text>
+              <Text>{e.currentDeployment?.branchName || '?'}</Text>
+            </TableCell>
+            <TableCell>
+              <Text>{e.currentDeployment?.user.name || '?'}</Text>
+            </TableCell>
+            <TableCell>
+              <Text>{e.currentDeployment?.deployedAt.toLocaleString() || '?'}</Text>
             </TableCell>
           </TableRow>
         ))}
