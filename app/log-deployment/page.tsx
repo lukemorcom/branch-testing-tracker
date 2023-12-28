@@ -1,21 +1,27 @@
-import { Card, Title, Text } from '@tremor/react';
-import UsersTable from '../table';
-import prismaDb from '../../lib/prismadb';
+import { Card, Title, Text, Grid, Col, Subtitle, Badge } from '@tremor/react';
+import { getEnvironments } from '../../lib/db';
 
 export default async function LogDeploymentPage() {
-  const environments = await prismaDb.environment.findMany({
-    orderBy: [{name: 'asc'}],
-    include: {currentDeployment: {include: {user: true}}
-  }
-});
+  const environments = await getEnvironments();
 
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
-      <Title>Deployments</Title>
-
-      <Card className="mt-6">
-        <UsersTable environments={environments}/>
-      </Card>
+      <Title>Log Deployment</Title>
+      <Grid numItems={3} className="mt-6 gap-6">
+        <Col className="flex-grow" numColSpan={1}>
+          <Card className='h-96'>
+            <Subtitle>Environment</Subtitle>
+            {environments.map((e) => (
+              <Badge color={"green"} key={e.id}><span className='text-green-700'>{e.name}</span></Badge>
+            ))}
+          </Card>
+        </Col>
+        <Col className="flex-grow" numColSpan={2}>
+          <Card className='h-96'>
+            <Subtitle>Deployment Information</Subtitle>
+          </Card>
+        </Col>
+      </Grid>
     </main>
   );
 }
