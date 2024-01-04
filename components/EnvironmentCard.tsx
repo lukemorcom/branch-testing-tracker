@@ -1,12 +1,8 @@
-import { Callout, Card, Subtitle, Text } from "@tremor/react";
+import { Callout, Card, Text } from "@tremor/react";
 import { timeAgo } from "../lib/time";
-import { Prisma } from "@prisma/client";
+import { EnvironmentWithDeploymentAndUser } from "../types";
 
-type EnvironmentWithDeploymentAndUser = Prisma.EnvironmentGetPayload<{
-    include: {currentDeployment: {include: {user: true}}}
-  }>
-
-export default function EnvironmentCard({environment}: {environment: EnvironmentWithDeploymentAndUser}) {
+export default async function EnvironmentCard({environment, isAuthUserDeployer}: {environment: EnvironmentWithDeploymentAndUser; isAuthUserDeployer: Boolean}) {
 	return (
 		<Card key={environment.id}>
 			<div className="flex flex-col h-full">
@@ -18,7 +14,7 @@ export default function EnvironmentCard({environment}: {environment: Environment
 				</div>
 				{/* Is this a proper way of doing this? Works tho */}
 				<div className="flex-grow" />
-				<Callout className="mt-auto" title={"Deployed by " + environment.currentDeployment?.user.name + " " + timeAgo(environment.currentDeployment?.deployedAt) + " ago"} />
+				<Callout className="mt-auto" title={"Deployed by " + (isAuthUserDeployer ? 'You' : environment.currentDeployment?.user.name) + " " + timeAgo(environment.currentDeployment?.deployedAt) + " ago"} />
 			</div>
 		</Card>
 	)

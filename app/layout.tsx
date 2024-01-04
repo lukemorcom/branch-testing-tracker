@@ -7,30 +7,30 @@ import SessionProvider from '../components/SessionProvider';
 import { getServerSession } from "next-auth"
 
 export const metadata = {
-  title: 'Branch Testing Tracker',
-  description:
+	title: 'Branch Testing Tracker',
+	description:
     'A tool to keep track of which branch is deployed where and by whom'
 };
 
 export default async function RootLayout({
-  children
+	children
 }: {
   children: React.ReactNode;
 }) {
 
-  const session = await getServerSession();
+	const session = await getServerSession();
 
-  return (
-    <html lang="en" className="h-full bg-gray-50">
-      <SessionProvider session={session}>
-        <body className="h-full">
-          <Suspense>
-            <Nav />
-          </Suspense>
-            {children}
-          <Toast />
-        </body>
-      </SessionProvider>
-    </html>
-  );
+	return (
+		<html lang="en" className="h-full bg-gray-50">
+			<SessionProvider session={session}>
+				<body className="h-full">
+					<Suspense>
+						<Nav />
+					</Suspense>
+					{children}
+					<Toast />
+				</body>
+			</SessionProvider>
+		</html>
+	);
 }

@@ -12,7 +12,6 @@ export default function LogDeploymentForm({environments}: LogDeploymentFormProps
 	const [selectedEnvironment, setSelectedEnvironment] = useState<EnvironmentWithDeploymentAndUser | null>(null);
 
 	const onEnvironmentClick = (id: string) => {
-		// implement
 		setSelectedEnvironment(environments.find((e) => e.id === id) || null);
 	}
 

@@ -78,6 +78,7 @@ model Deployment {
   user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String
   branchName  String
+  finishedTesting Boolean  @default(false)
   environment Environment?
   deployedAt  DateTime @default(now())
 }
