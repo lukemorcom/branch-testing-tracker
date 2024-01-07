@@ -5,6 +5,7 @@ import Toast from './toast';
 import { Suspense } from 'react';
 import SessionProvider from '../components/SessionProvider';
 import { getServerSession } from "next-auth"
+import { Toaster } from 'react-hot-toast';
 
 export const metadata = {
 	title: 'Branch Testing Tracker',
@@ -27,6 +28,7 @@ export default async function RootLayout({
 					<Suspense>
 						<Nav />
 					</Suspense>
+					<Toaster />
 					{children}
 					<Toast />
 				</body>

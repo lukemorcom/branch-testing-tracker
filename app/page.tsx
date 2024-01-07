@@ -9,7 +9,7 @@ export default async function DeploymentsPage() {
 	const environments = await getEnvironments();
 	const user = await getUser();
 
-	const authUserDeployments = environments.map((environment: EnvironmentWithDeploymentAndUser) => ({
+	const environmentsMap = environments.map((environment: EnvironmentWithDeploymentAndUser) => ({
 		environment,
 		isAuthUserDeployer: user!.email == environment.currentDeployment?.user.email,
 	  }));
@@ -19,10 +19,10 @@ export default async function DeploymentsPage() {
 			<Title>Overview</Title>
 			<Text>A list of environments and their latest deployment status.</Text>
 			<Grid numItemsMd={2} className="flex justify-center mt-6 gap-6">
-				{authUserDeployments.map((o) => (
+				{environmentsMap.map((o) => (
 					<Grid key={o.environment.id} className="flex flex-col flex-1 gap-2">
 						<EnvironmentCard key={'' + o.environment.id} environment={o.environment} isAuthUserDeployer={o.isAuthUserDeployer} />
-						{o.isAuthUserDeployer && <DeployerContextActions deployment={o.environment.currentDeployment!} />}
+						{(o.isAuthUserDeployer && !o.environment.currentDeployment?.finishedTesting) && <DeployerContextActions deployment={o.environment.currentDeployment!} />}
 					</Grid>
 				))}
 			</Grid>
