@@ -11,7 +11,7 @@ interface LogDeploymentFormProps {
 }
 
 interface FormInput {
-	branch: string;
+	branchName: string;
 	environmentId: string;
 }
 
@@ -24,7 +24,7 @@ export default function LogDeploymentForm({environments}: LogDeploymentFormProps
 	}
 
 	const onSubmit = handleSubmit(async (data) => {
-		if (confirm('Log deployment of branch ' + data.branch + 'to the ' + selectedEnvironment!.name + 'environment?')) {
+		if (confirm('Log deployment of branch ' + data.branchName + 'to the ' + selectedEnvironment!.name + 'environment?')) {
 			const res = await axios.post('/api/log-deployment', {data});
 
 			if (res.status !== 200) {
@@ -33,7 +33,7 @@ export default function LogDeploymentForm({environments}: LogDeploymentFormProps
 				return;
 			}
 
-			toast.success('Logged deployment of branch ' + data.branch + ' to environment ' + selectedEnvironment!.name)
+			toast.success('Logged deployment of branch ' + data.branchName + ' to environment ' + selectedEnvironment!.name)
 			setSelectedEnvironment(null);
 		}
 	})
@@ -52,10 +52,11 @@ export default function LogDeploymentForm({environments}: LogDeploymentFormProps
 			</Col>
 			<Col className="flex-grow" numColSpan={2}>
 				{selectedEnvironment ? (
-					<Card className='h-96'>
-						    <form className="flex flex-col" onSubmit={onSubmit}>
+					<Card className='h-96 flex flex-col gap-2'>
+						<Text>Deploying to {selectedEnvironment!.name}</Text>
+						    <form className="flex flex-col mt-8" onSubmit={onSubmit}>
 							<label><Text>Branch</Text></label>
-							<select {...register("branch")}>
+							<select {...register("branchName")}>
 								<option value="branch1">branch1</option>
 								<option value="branch2">branch2</option>
 								<option value="branch3">branch3</option>
