@@ -24,7 +24,7 @@ export default function LogDeploymentForm({environments}: LogDeploymentFormProps
 	}
 
 	const onSubmit = handleSubmit(async (data) => {
-		if (confirm('Log deployment of branch ' + data.branchName + 'to the ' + selectedEnvironment!.name + 'environment?')) {
+		if (confirm('Log deployment of branch ' + data.branchName + ' to the ' + selectedEnvironment!.name + ' environment?')) {
 			const res = await axios.post('/api/log-deployment', {data});
 
 			if (res.status !== 200) {

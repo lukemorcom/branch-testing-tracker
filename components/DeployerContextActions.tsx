@@ -10,7 +10,7 @@ export default function DeployerContextActions({deployment}: {deployment: Deploy
 	const [isMounted, setIsMounted] = useState(true);
 
 	const finishedClick = async () => {
-		const res = await axios.post('/api/finish-deployment', {deployment: deployment.id});
+		const res = await axios.post('/api/finish-deployment', {deploymentId: deployment.id});
 
 		if (res.status !== 200) {
 			toast.error('Oops, something went wrong. Harrass Luke about this.');

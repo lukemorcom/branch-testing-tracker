@@ -4,7 +4,6 @@ import prismaDb from "../../../prisma/prismadb";
 
 export async function POST(request: NextRequest) {
 	const {data: {branchName, environmentId}} = await request.json();
-	console.log(branchName);
 
 	// lol what am I even doing this is so tapped
 	const user = await getUser();
