@@ -34,7 +34,7 @@ export default function DeployerContextActions({deployment}: {deployment: Deploy
 						{!hasClickedFinish && <Button onClick={() => setHasClickedFinish(true)} size="xs" className="mt-2"><span className="text-white">Testing Complete</span></Button>}
 						{hasClickedFinish && (
 							<div className="flex flex-row justify-center gap-2">
-								<Button color="red" onClick={finishedClick} size="xs" className="mt-2"><span className="text-white">I'm Sure</span></Button>
+								<Button color="red" onClick={finishedClick} size="xs" className="mt-2"><span className="text-white">I&apos;m Sure</span></Button>
 								<Button color="amber" onClick={() => setHasClickedFinish(false)} size="xs" className="mt-2"><span className="text-white">I Changed My Mind</span></Button>
 							</div>
 						)}
