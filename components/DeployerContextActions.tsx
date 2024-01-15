@@ -5,7 +5,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 
-export default function DeployerContextActions({deployment}: {deployment: Deployment}) {
+export default function DeployerContextActions({deployment, environmentName}: {deployment: Deployment, environmentName: string}) {
 	const [hasClickedFinish, setHasClickedFinish] = useState(false);
 	const [isMounted, setIsMounted] = useState(true);
 
@@ -28,7 +28,7 @@ export default function DeployerContextActions({deployment}: {deployment: Deploy
 				<Card key={deployment.id}>
 					<div className="flex flex-col">
 						<Callout title="Are you done?" color="green">
-					Your deployment to this environment is the most recent. Click the button below when you are done
+					Your deployment to {environmentName} is the most recent. Click the button below when you are done
 					using this environment to indicate that others may deploy to it.
 						</Callout>
 						{!hasClickedFinish && <Button onClick={() => setHasClickedFinish(true)} size="xs" className="mt-2"><span className="text-white">Testing Complete</span></Button>}
