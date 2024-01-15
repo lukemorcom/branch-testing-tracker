@@ -22,7 +22,7 @@ export default async function DeploymentsPage() {
 				{environmentsMap.map((o) => (
 					<Grid key={o.environment.id} className="flex flex-col flex-1 gap-2">
 						<EnvironmentCard key={'' + o.environment.id} environment={o.environment} isAuthUserDeployer={o.isAuthUserDeployer} />
-						{(o.isAuthUserDeployer && !o.environment.currentDeployment?.finishedTesting) && <DeployerContextActions deployment={o.environment.currentDeployment!} />}
+						{(o.isAuthUserDeployer && !o.environment.currentDeployment?.finishedTesting) && <DeployerContextActions deployment={o.environment.currentDeployment!} environmentName={o.environment.name}/>}
 					</Grid>
 				))}
 			</Grid>

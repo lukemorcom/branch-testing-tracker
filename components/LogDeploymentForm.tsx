@@ -24,6 +24,16 @@ export default function LogDeploymentForm({environments}: LogDeploymentFormProps
 	}
 
 	const onSubmit = handleSubmit(async (data) => {
+		if (!selectedEnvironment!.currentDeployment?.finishedTesting) {
+			toast.error(
+				selectedEnvironment!.name + '\'s current deployment is still active. The original deployer needs to mark it'
+				+ ' as finished before you can log a new deployment.',
+				{className: 'text-center'}
+			);
+
+			return;
+		}
+
 		if (confirm('Log deployment of branch ' + data.branchName + ' to the ' + selectedEnvironment!.name + ' environment?')) {
 			const res = await axios.post('/api/log-deployment', {data});
 
@@ -56,11 +66,7 @@ export default function LogDeploymentForm({environments}: LogDeploymentFormProps
 						<Text>Deploying to {selectedEnvironment!.name}</Text>
 						    <form className="flex flex-col mt-8" onSubmit={onSubmit}>
 							<label><Text>Branch</Text></label>
-							<select {...register("branchName")}>
-								<option value="branch1">branch1</option>
-								<option value="branch2">branch2</option>
-								<option value="branch3">branch3</option>
-							</select>
+							<input className="bg-gray-200 rounded-md mt-2 pl-1" type="text" autoFocus {...register("branchName")} />
 							<input {...register("environmentId")} hidden readOnly type="text" value={selectedEnvironment!.id}/>
 							<Button size="xs" className="mt-8"><input value="Deploy" type="submit" /></Button>
 						</form>
