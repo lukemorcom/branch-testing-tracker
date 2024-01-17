@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useRouter } from 'next/navigation'
 
 interface LogDeploymentFormProps {
     environments: EnvironmentWithDeploymentAndUser[];
@@ -16,6 +17,7 @@ interface FormInput {
 }
 
 export default function LogDeploymentForm({environments}: LogDeploymentFormProps) {
+	const router = useRouter();
 	const [selectedEnvironment, setSelectedEnvironment] = useState<EnvironmentWithDeploymentAndUser | null>(null);
 	const { register, handleSubmit } = useForm<FormInput>();
 
@@ -45,6 +47,7 @@ export default function LogDeploymentForm({environments}: LogDeploymentFormProps
 
 			toast.success('Logged deployment of branch ' + data.branchName + ' to environment ' + selectedEnvironment!.name)
 			setSelectedEnvironment(null);
+			router.push('/');
 		}
 	})
 
