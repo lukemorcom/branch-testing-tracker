@@ -18,7 +18,7 @@ export default async function DeploymentsPage() {
 		<main className="p-4 md:p-10 mx-auto max-w-7xl">
 			<Title>Overview</Title>
 			<Text>A list of environments and their latest deployment status.</Text>
-			<Grid numItemsMd={2} className="flex justify-center mt-6 gap-6">
+			<Grid numItemsSm={1} numItemsMd={2} numItemsLg={3} className="justify-center mt-6 gap-6">
 				{environmentsMap.map((o) => (
 					<Grid key={o.environment.id} className="flex flex-col flex-1 gap-2">
 						<EnvironmentCard key={'' + o.environment.id} environment={o.environment} isAuthUserDeployer={o.isAuthUserDeployer} />
